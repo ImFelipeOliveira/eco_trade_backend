@@ -11,7 +11,10 @@ dependencies = [
     "psycopg (>=3.3.3,<4.0.0)",
     "django (>=6.0.3,<7.0.0)",
     "djangorestframework (>=3.16.1,<4.0.0)",
-    "dotenv (>=0.9.9,<0.10.0)"
+    "dotenv (>=0.9.9,<0.10.0)",
+    "gunicorn (>=25.1.0,<26.0.0)",
+    "psycopg-binary (>=3.3.3,<4.0.0)",
+    "whitenoise (>=6.12.0,<7.0.0)",
 ]
 
 [tool.poetry]
