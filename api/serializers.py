@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Lote, Scheduling
 
 # Tradutor para o perfil de Comércio
 class ComercioSerializer(serializers.ModelSerializer):
@@ -49,3 +49,34 @@ class ProdutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['uid', 'email', 'name', 'phone_number', 'cpf', 'collection_capacity_kg', 'accepted_waste_types']
+
+# Tradutor para os Lotes
+class LoteSerializer(serializers.ModelSerializer):
+    # O segredo aqui: vamos "embutir" o tradutor do comércio dentro do lote!
+    # Assim, quando o Flutter pedir um lote, ele já recebe todos os dados de quem o criou.
+    comercio = ComercioSerializer(read_only=True)
+    
+    # Formatando as datas para o padrão internacional (ISO 8601) que o Dart ama ler
+    limit_date = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S")
+    created_at = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", read_only=True)
+
+    class Meta:
+        model = Lote
+        fields = [
+            'id', 'comercio', 'description', 'image_url', 'weight', 
+            'limit_date', 'latitude', 'longitude', 'status', 'created_at'
+        ]
+
+
+# Tradutor para os Agendamentos
+class SchedulingSerializer(serializers.ModelSerializer):
+    # Embutindo os dados do lote e do produtor que vai coletar
+    lote = LoteSerializer(read_only=True)
+    produtor = ProdutorSerializer(read_only=True)
+    
+    proposed_date = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", required=False)
+    created_at = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", read_only=True)
+
+    class Meta:
+        model = Scheduling
+        fields = ['id', 'lote', 'produtor', 'status', 'proposed_date', 'created_at']
