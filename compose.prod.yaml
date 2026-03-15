@@ -22,5 +22,6 @@ services:
 
         - "traefik.http.services.app.loadbalancer.server.port=8000"
 
+networks:
   ecotrade-net:
     external: true
