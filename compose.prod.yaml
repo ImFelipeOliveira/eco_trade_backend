@@ -2,13 +2,25 @@ services:
   app:
     command: sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 --workers 3 --worker-tmp-dir /dev/shm core.wsgi:application"
 
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=ecotrade-backend"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
-      - "traefik.http.routers.app.rule=Host(`ecotrade.f3-software.com.br`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
-      - "traefik.http.routers.app.tls=true"
-      - "traefik.http.routers.app.tls.certresolver=letsencryptresolver"
+    networks:
+      - ecotrade-net
 
-      - "traefik.http.services.app.loadbalancer.server.port=8000"
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=ecotrade-net"
+
+        - "traefik.http.routers.app.rule=Host(`ecotrade.f3-software.com.br`)"
+        - "traefik.http.routers.app.entrypoints=websecure"
+        - "traefik.http.routers.app.tls=true"
+        - "traefik.http.routers.app.tls.certresolver=letsencryptresolver"
+
+        - "traefik.http.services.app.loadbalancer.server.port=8000"
+
+  ecotrade-net:
+    external: true
