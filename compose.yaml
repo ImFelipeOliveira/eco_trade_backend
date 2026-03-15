@@ -37,10 +37,12 @@ services:
     restart: on-failure
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=ecotrade-net"
+
       - "traefik.http.routers.app.rule=Host(`ecotrade.f3-software.com.br`) || Host(`localhost`)"
       - "traefik.http.routers.app.entrypoints=web"
+
       - "traefik.http.services.app.loadbalancer.server.port=8000"
-      - "traefik.docker.network=eco_trade_backend_web"
     networks:
       - web
       - db
@@ -60,7 +62,8 @@ services:
 networks:
   web:
   db:
-
+  ecotrade-net:
+    external: true
 
 volumes:
   postgres_data:
