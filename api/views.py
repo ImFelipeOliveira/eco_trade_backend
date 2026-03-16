@@ -208,3 +208,8 @@ class MinhasColetasView(generics.ListAPIView):
     def get_queryset(self):
         # Devolve apenas os agendamentos feitos pelo Produtor logado.
         return Scheduling.objects.filter(produtor=self.request.user).order_by('-created_at')
+    
+class LoteDetailView(generics.RetrieveDestroyAPIView):
+    queryset = Lote.objects.all()
+    # Coloque o nome exato do Serializer que você usou na LoteListCreateView
+    serializer_class = LoteSerializer

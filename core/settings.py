@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'api',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -135,3 +137,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+# O URL que vai aparecer na internet
+MEDIA_URL = '/media/'
+
+# A pasta física onde o Django vai guardar as fotos
+MEDIA_ROOT = BASE_DIR / 'media'
