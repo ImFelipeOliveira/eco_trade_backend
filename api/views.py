@@ -1,15 +1,13 @@
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.utils import timezone
-from django.contrib.auth import authenticate
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics, permissions
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.authtoken.models import Token
 
-from .models import User, ComercioProfile, ProdutorProfile, Lote, Scheduling
+from .models import User, Lote, Scheduling
 from .serializers import (
     ComercioSerializer,
     ProdutorSerializer,
@@ -17,7 +15,7 @@ from .serializers import (
     SchedulingSerializer,
 )
 
-from services.authentication_service import AuthenticationService
+from .services.authentication_service import AuthenticationService
 
 
 class ComercioListView(generics.ListAPIView):
