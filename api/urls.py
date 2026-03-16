@@ -6,6 +6,7 @@ from .views import (
     ComercioSignUpView, 
     ProdutorSignUpView,
     LoteListCreateView,
+    LoteDetailView, # <-- A nossa nova View importada aqui!
     AgendarColetaView,
     MeusLotesView,
     MinhasColetasView
@@ -23,13 +24,11 @@ urlpatterns = [
 
     # Rotas de Lotes
     path('lotes/', LoteListCreateView.as_view(), name='lista-cria-lotes'),
-
-    # Rotas de Lotes e Agendamentos
-    path('lotes/', LoteListCreateView.as_view(), name='lista-cria-lotes'),
-    path('lotes/<int:lote_id>/agendar/', AgendarColetaView.as_view(), name='agendar-coleta'),
-
-    # Rotas de Lotes e Agendamentos
-    path('lotes/', LoteListCreateView.as_view(), name='lista-cria-lotes'),
+    
+    # === A NOSSA NOVA PORTA PARA EXCLUIR ===
+    # O pk significa "Primary Key" (o ID do lote)
+    path('lotes/<int:pk>/', LoteDetailView.as_view(), name='lote-detalhe'), 
+    
     path('lotes/<int:lote_id>/agendar/', AgendarColetaView.as_view(), name='agendar-coleta'),
     
     # Rotas de Histórico

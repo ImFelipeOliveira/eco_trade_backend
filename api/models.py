@@ -72,7 +72,7 @@ class Lote(models.Model):
     
     # Detalhes do resíduo
     description = models.CharField(max_length=255, default="Lote de Resíduos")
-    image_url = models.CharField(max_length=500, blank=True) # Caminho ou URL da imagem
+    image_url = models.ImageField(upload_to='residuos/', blank=True, null=True)    
     weight = models.FloatField()
     limit_date = models.DateTimeField()
     
