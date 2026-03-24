@@ -16,6 +16,8 @@ services:
     volumes:
       - .:/app
       - /app/.venv
+      - media_data:/app/media
+
     depends_on:
       - database
     restart: on-failure
@@ -42,4 +44,5 @@ networks:
     external: true
 
 volumes:
+  media_data:
   postgres_data:
